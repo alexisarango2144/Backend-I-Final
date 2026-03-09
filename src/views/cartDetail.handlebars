@@ -1,0 +1,37 @@
+<div class="card shadow">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">Detalle de tu Carrito</h3>
+        <button onclick="clearCart('{{cartId}}')" class="btn btn-danger btn-sm">Vaciar Carrito</button>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Producto</th>
+                    <th class="text-center">Cantidad</th>
+                    <th class="text-end">Precio Unitario</th>
+                    <th class="text-end">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products}}
+                <tr>
+                    <td class="align-middle">
+                        <strong>{{this.productId.title}}</strong>
+                    </td>
+                    <td class="text-center align-middle">
+                        <span class="badge bg-secondary p-2">{{this.quantity}}</span>
+                    </td>
+                    <td class="text-end align-middle">${{this.productId.price}}</td>
+                    <td class="text-end align-middle">
+                        <button onclick="removeProduct('{{../cartId}}','{{this.productId._id}}')" class="btn btn-outline-danger btn-sm">Eliminar</button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="mt-4 text-start">
+    <a href="/products" class="btn btn-link text-decoration-none">← Seguir comprando</a>
+</div>
