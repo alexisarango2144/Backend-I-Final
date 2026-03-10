@@ -35,3 +35,41 @@
 <div class="mt-4 text-start">
     <a href="/products" class="btn btn-link text-decoration-none">← Seguir comprando</a>
 </div>
+
+
+<script>
+  // Eliminar un producto específico: DELETE /api/carts/:cid/products/:pid
+  async function removeProduct(cid, pid) {
+    try {
+      const res = await fetch(`/api/carts/${cid}/products/${pid}`, { method: 'DELETE' });
+      const data = await res.json();
+      
+      if (data.status === "success") {
+        Swal.fire('Eliminado', 'Producto fuera del carrito', 'success')
+            .then(() => location.reload()); // Recargamos para ver los cambios
+      }
+    } catch (error) {
+      Swal.fire('Error', 'No se pudo eliminar', 'error');
+    }
+  }
+
+  // Vaciar carrito completo: DELETE /api/carts/:cid
+  async function clearCart(cid) {
+    const confirm = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: "Se eliminarán todos los productos",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, vaciar'
+    });
+
+    if (confirm.isConfirmed) {
+      try {
+        const res = await fetch(`/api/carts/${cid}`, { method: 'DELETE' });
+        if (res.ok) location.reload();
+      } catch (error) {
+        Swal.fire('Error', 'No se pudo vaciar', 'error');
+      }
+    }
+  }
+</script>

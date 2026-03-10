@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const RatingSchema = new Schema({
   count: {type: Number},
@@ -16,5 +17,7 @@ const ProductSchema = new Schema({
   price: {type: Number, required: true},
   rating: RatingSchema
 });
+
+ProductSchema.plugin(mongoosePaginate);
 
 export const ProductModel = model('products', ProductSchema);

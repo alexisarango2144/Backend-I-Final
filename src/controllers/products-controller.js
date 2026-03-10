@@ -61,7 +61,7 @@ class ProductsController {
   getProductById = async (req, res, next)=>{
     try {
       const { pid } = req.params;
-      const response = await this.repository.getById(id);
+      const response = await this.repository.getById(pid);
       if(!response) throw new CustomError("Product not found", 404);
       res.status(200).json(response);
     } catch (error) {
@@ -98,8 +98,8 @@ class ProductsController {
 
   delete = async (req, res, next)=>{
     try {
-      const { id } = req.params;
-      const response = await this.repository.delete(id);
+      const { pid } = req.params;
+      const response = await this.repository.delete(pid);
       if(!response) throw new CustomError("Product not found", 404);
       res.status(200);
       res.json({status: "success", payload: response});

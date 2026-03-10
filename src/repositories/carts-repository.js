@@ -1,4 +1,4 @@
-import { CartModel } from "../models/cart-model.js";
+import { CartModel } from "../models/carts-model.js";
 
 class CartRepository {
   constructor(model) {
@@ -19,7 +19,6 @@ class CartRepository {
           lean: true,
         },
       );
-      //return await this.model.findById(id).populate('products', {_id: 0,})
     } catch (error) {
       throw new Error(`Error al obtener el carrito: ${error.message}`);
     }
@@ -36,13 +35,13 @@ class CartRepository {
         return await this.model.findOneAndUpdate(
           { _id: cartId, "products.productId": productId },
           { $inc: { "products.$.quantity": quantity } },
-          { new: true },
+          { returnDocument: 'after' },
         );
       } else {
         return await this.model.findByIdAndUpdate(
           cartId,
           { $push: { products: { productId, quantity } } },
-          { new: true },
+          { returnDocument: 'after' },
         );
       }
     } catch (error) {
@@ -56,7 +55,7 @@ class CartRepository {
       return this.model.findOneAndUpdate(
         { _id: cartId, "products.productId": productId },
         { $set: { "products.$.quantity": newQuantity } },
-        { new: true },
+        { returnDocument: 'after' },
       );
     } catch (error) {
       throw new Error(`Error al actualizar cantidad: ${error.message}`);
@@ -68,7 +67,7 @@ class CartRepository {
       return await this.model.findByIdAndUpdate(
         cartId,
         { $pull: { products: { productId: productId } } },
-        { new: true },
+        { returnDocument: 'after' },
       );
     } catch (error) {
       throw new Error(
@@ -90,7 +89,7 @@ class CartRepository {
       return await this.model.findByIdAndUpdate(
         cartId,
         { $set: { products: [] } },
-        { new: true },
+        { returnDocument: 'after' },
       );
     } catch (error) {
       throw new Error(`Error al vaciar el carrito: ${error.message}`);

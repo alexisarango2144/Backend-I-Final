@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-6">
+        <img src="{{product.thumbnails.[0]}}" alt="{{product.title}}" class="img-fluid rounded shadow-sm">
+    </div>
+    <div class="col-md-6">
+        <h1 class="display-5">{{product.title}}</h1>
+        <p class="lead text-muted">{{product.description}}</p>
+        <hr>
+        <p class="small text-uppercase text-muted">{{product.category}}</p>
+        <h3 class="text-primary my-3">${{product.price}}</h3>
+        <p>Stock disponible: 
+            {{#if product.stock}}
+                <span class="badge bg-success">{{product.stock}}</span>
+            {{else}}
+                <span class="badge bg-danger">Agotado</span>
+            {{/if}}
+        </p>
+        
+        <div class="d-grid gap-2 mt-4">
+            {{#if product.stock}}
+                <button onclick="addToCart('{{product._id}}')" class="btn btn-primary btn-lg">Agregar al Carrito</button>
+            {{else}}
+                <button class="btn btn-secondary btn-lg" disabled>Sin Stock</button>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <a href="/products" class="btn btn-link text-decoration-none">← Volver al catálogo</a>
+</div>

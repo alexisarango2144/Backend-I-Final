@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+		"name": "Ecommerce CoderHouse API",
+		"description": "Colección de endpoints para la API del proyecto de Ecommerce.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"description": "Endpoints para gestionar productos.",
+			"item": [
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products?page=1&limit=5&sort=price_asc&query=available",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "sort",
+									"value": "price_asc"
+								},
+								{
+									"key": "query",
+									"value": "available"
+								}
+							]
+						},
+						"description": "Obtiene una lista paginada de productos. Puedes usar los query params `page`, `limit`, `sort` (ej: `price_asc`) y `query` (ej: `available` o una categoría)."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Nuevo Producto de Prueba\",\n    \"description\": \"Descripción del nuevo producto.\",\n    \"code\": \"NP001\",\n    \"category\": \"test\",\n    \"price\": 199.99,\n    \"stock\": 25,\n    \"thumbnails\": [\"url_de_imagen.jpg\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "Crea un nuevo producto en la base de datos."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						},
+						"description": "Obtiene un producto específico usando su ID. Asegúrate de tener un `productId` válido en las variables de la colección."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"price\": 249.99,\n    \"stock\": 20\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						},
+						"description": "Actualiza uno o más campos de un producto existente."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						},
+						"description": "Elimina un producto de la base de datos."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carts",
+			"description": "Endpoints para gestionar carritos de compra.",
+			"item": [
+				{
+					"name": "Create Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"owner\": \"postman_test\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/carts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carts"
+							]
+						},
+						"description": "Crea un nuevo carrito vacío."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cart by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/carts/{{cartId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carts",
+								"{{cartId}}"
+							]
+						},
+						"description": "Obtiene el contenido de un carrito específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Product to Cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/carts/{{cartId}}/products/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carts",
+								"{{cartId}}",
+								"products",
+								"{{productId}}"
+							]
+						},
+						"description": "Agrega una unidad de un producto al carrito. Si el producto ya existe, incrementa su cantidad."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product Quantity in Cart",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\": 5\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/carts/{{cartId}}/products/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carts",
+								"{{cartId}}",
+								"products",
+								"{{productId}}"
+							]
+						},
+						"description": "Actualiza la cantidad de un producto específico dentro del carrito."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product from Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/carts/{{cartId}}/products/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carts",
+								"{{cartId}}",
+								"products",
+								"{{productId}}"
+							]
+						},
+						"description": "Elimina un producto por completo del carrito."
+					},
+					"response": []
+				},
+				{
+					"name": "Clear All Products from Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/carts/{{cartId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carts",
+								"{{cartId}}"
+							]
+						},
+						"description": "Vacía el carrito, eliminando todos los productos que contiene."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cart with Array",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"products\": [\n        {\n            \"productId\": \"{{productId}}\",\n            \"quantity\": 3\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/carts/{{cartId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carts",
+								"{{cartId}}"
+							]
+						},
+						"description": "Reemplaza todos los productos del carrito con un nuevo array de productos."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api",
+			"type": "string",
+			"description": "URL base de la API. Cambiar el puerto si es necesario."
+		},
+		{
+			"key": "productId",
+			"value": "",
+			"type": "string",
+			"description": "ID de un producto para usar en las pruebas. Se puede obtener al crear un producto nuevo."
+		},
+		{
+			"key": "cartId",
+			"value": "",
+			"type": "string",
+			"description": "ID de un carrito para usar en las pruebas. Se puede obtener al crear un carrito nuevo."
+		}
+	]
+}

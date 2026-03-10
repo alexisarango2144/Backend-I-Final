@@ -21,10 +21,18 @@
                 <h5 class="card-title text-truncate">{{this.title}}</h5>
                 <p class="card-text text-muted small">{{this.category}}</p>
                 <h4 class="text-primary">${{this.price}}</h4>
-                <p class="small">Stock: {{this.stock}}</p>
+                {{#if this.stock}}
+                    <p class="small">Stock: {{this.stock}}</p>
+                {{else}}
+                    <p class="small text-danger fw-bold">Agotado</p>
+                {{/if}}
             </div>
             <div class="card-footer bg-white border-top-0 d-grid gap-2">
-                <button onclick="addToCart('{{this._id}}')" class="btn btn-primary">Agregar al Carrito</button>
+                {{#if this.stock}}
+                    <button onclick="addToCart('{{this._id}}')" class="btn btn-primary">Agregar al Carrito</button>
+                {{else}}
+                    <button class="btn btn-secondary" disabled>Sin Stock</button>
+                {{/if}}
                 <a href="/products/{{this._id}}" class="btn btn-outline-secondary btn-sm">Ver detalles</a>
             </div>
         </div>
@@ -32,36 +40,19 @@
     {{/each}}
 </div>
 
-<!-- Paginación estilo Bootstrap -->
+<!-- Paginación -->
 <nav class="mt-5">
     <ul class="pagination justify-content-center">
         <li class="page-item {{#unless hasPrevPage}}disabled{{/unless}}">
             <a class="page-link" href="{{prevLink}}">Anterior</a>
         </li>
-        <li class="page-item active"><span class="page-link">{{page}}</span></li>
+        {{#each pages}}
+        <li class="page-item {{#if this.isCurrent}}active{{/if}}">
+            <a class="page-link" href="{{this.link}}">{{this.number}}</a>
+        </li>
+        {{/each}}
         <li class="page-item {{#unless hasNextPage}}disabled{{/unless}}">
             <a class="page-link" href="{{nextLink}}">Siguiente</a>
         </li>
     </ul>
 </nav>
-
-<script>
-async function addToCart(pid) {
-    const cid = "TU_CART_ID_AQUÍ"; // Puedes obtenerlo de localStorage o sesión
-    try {
-        const res = await fetch(`/api/carts/${cid}/products/${pid}`, { method: 'POST' });
-        if(res.ok) {
-            Swal.fire({
-                icon: 'success',
-                title: '¡Producto agregado!',
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 2000
-            });
-        }
-    } catch (error) {
-        Swal.fire('Error', 'No se pudo agregar el producto', 'error');
-    }
-}
-</script>

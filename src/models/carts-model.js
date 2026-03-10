@@ -23,4 +23,5 @@ const CartSchema = new Schema({
 }, { timestamps: true });
 
 CartSchema.plugin(mongoosePaginate);
+
 export const CartModel = model('carts', CartSchema);
